@@ -68,7 +68,7 @@ class BFSSolver:
     def solve(self, start_state):
         start_time = time.time()
 
-        frontier = deque([(start_state, [start_state])])  # (state, path)
+        frontier = deque([(start_state, [start_state])])  
         explored = set([start_state])
 
         self.nodes_expanded = 0
@@ -107,7 +107,7 @@ class DFSSolver:
     def solve(self, start_state):
         start_time = time.time()
 
-        frontier = [(start_state, [start_state])]  # stack
+        frontier = [(start_state, [start_state])]  
         explored = set([start_state])
 
         self.nodes_expanded = 0
