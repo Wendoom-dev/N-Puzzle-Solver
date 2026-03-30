@@ -1,3 +1,9 @@
+'''
+    Implemented manhattan distance and linear conflict heuristics
+
+    References: https://www.datacamp.com/tutorial/manhattan-distance, https://stackoverflow.com/questions/35552661/can-linear-conflict-heuristic-cause-more-nodes-to-be-created-and-explored-than-m
+'''
+
 def get_manhattan_distance(state, goal_state):
     
     distance = 0

@@ -1,3 +1,10 @@
+'''
+    Implementation of 4 search Strategies - A*, BFS, DFS and Greedy Search 
+    
+    Storing paths for proper visualisation
+
+    References: https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/, https://www.datacamp.com/tutorial/a-star-algorithm, https://www.geeksforgeeks.org/dsa/a-search-algorithm/
+'''
 import heapq
 import time
 from collections import deque
