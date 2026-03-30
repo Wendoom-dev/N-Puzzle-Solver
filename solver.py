@@ -147,7 +147,7 @@ class GreedyBestFirstSolver:
         start_time = time.time()
 
         initial_h = self.heuristic(start_state, self.env.goal_state)
-        frontier = [(intial_h, start_state, [start_state])]
+        frontier = [(initial_h, start_state, [start_state])]
 
         explored = set([start_state])
         self.nodes_expanded = 0
