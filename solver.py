@@ -174,7 +174,3 @@ class GreedyBestFirstSolver:
 
         self.execution_time = time.time() - start_time
         return None, self.nodes_expanded, self.max_frontier_size, self.execution_time
-
-        
-        
-        
