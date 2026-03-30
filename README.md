@@ -4,18 +4,6 @@ A comprehensive Python implementation of the classic **8-puzzle problem** featur
 
 ---
 
-## 🛠 Project Structure
-
-.
-├── main.py           # Application entry point & menu logic
-├── environment.py    # Game rules: move validation & solvability
-├── solver.py         # Search strategies (BFS, DFS, A*, Greedy)
-├── heuristic.py      # Mathematical distance & conflict logic
-├── visualizer.py     # Terminal animation & UI rendering
-└── README.md         # Project documentation
-
----
-
 ## 🤖 AI Attribution
 This project was developed by **Group 07** with the assistance of **Google Gemini (AI)**. The AI was utilized for:
 * Refactoring search algorithms for modularity and performance.
