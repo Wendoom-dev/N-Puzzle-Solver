@@ -36,16 +36,35 @@ An enhancement over Manhattan Distance that identifies tiles in their correct ro
 
 ## 📋 Module Overview
 
+### `main.py`
+The orchestrator of the application. It handles:
+* **User Interface**: Console-based menu for inputting puzzle states and selecting algorithms.
+* **Input Validation**: Ensures the entered state is a valid 3x3 permutation of numbers 0-8.
+* **Execution Flow**: Coordinates between the environment, solvers, and the visualizer.
+
 ### `solver.py`
-Contains the four core search classes. Each solver returns:
-* `path`: Sequence of states from start to goal.
-* `nodes_expanded`: Total states popped from the frontier.
-* `max_frontier_size`: Peak memory usage (frontier size).
-* `execution_time`: Total search time in seconds.
+Contains the four core search classes (BFS, DFS, A*, Greedy). Each solver returns:
+* **Path**: The sequence of states from start to goal.
+* **Nodes Expanded**: Total states popped from the frontier (Time Complexity).
+* **Max Frontier Size**: Peak memory usage during the search (Space Complexity).
+* **Execution Time**: Total search time in seconds.
 
 ### `environment.py`
-Implements the **Inversion Parity** check to ensure the puzzle is mathematically solvable before starting a search.
+Defines the rules of the 8-puzzle world:
+* **Move Logic**: Calculates valid sliding actions (Up, Down, Left, Right).
+* **State Transitions**: Generates successor states by swapping tiles with the blank space.
+* **Solvability**: Implements **Inversion Parity** to prevent searching for mathematically impossible goals.
 
+### `heuristic.py`
+Contains the "intelligence" for informed search:
+* **Manhattan Distance**: Basic $L_1$ distance metric for tile displacements.
+* **Linear Conflict**: Advanced heuristic that adds penalties for tiles blocking each other in their target rows or columns.
+
+### `visualizer.py`
+Manages the terminal-based user experience:
+* **Animation**: Replays the solution path frame-by-frame.
+* **Metric Overlay**: Displays real-time search data (nodes visited, current step) during the replay.
+* **Comparison UI**: Renders tables to compare performance across different algorithms.
 ---
 
 ## 🎮 How to Run
