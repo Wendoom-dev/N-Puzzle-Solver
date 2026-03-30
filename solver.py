@@ -168,7 +168,7 @@ class GreedyBestFirstSolver:
 
                 if neighbor not in explored:
                     explored.add(neighbor)
-                    h_val = self.heuristic(neighbor, selgf.env.goal_state)
+                    h_val = self.heuristic(neighbor, self.env.goal_state)
 
                     heapq.heappush(frontier, (h_val, neighbor, path + [neighbor]))
 
