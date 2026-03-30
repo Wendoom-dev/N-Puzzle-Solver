@@ -1,139 +1,81 @@
-#  8-Puzzle Solver
+```markdown
+# 8-Puzzle Solver: Group 07
 
-> A Python implementation of the classic **8-puzzle problem** using **A\***, **BFS**, and **DFS** search algorithms — with pluggable heuristics and a clean environment model.
+> A comprehensive Python implementation of the classic **8-puzzle problem** featuring four search strategies, advanced heuristics, and an animated terminal-based visualization engine.
 
 ---
 
-##  Project Structure
+## 🛠 Project Structure
 
-```
+```text
 8-puzzle-solver/
-├── environment.py   # Puzzle environment: state transitions, goal test, solvability
-├── heuristic.py     # Heuristic functions for A* (Manhattan Distance, Linear Conflict)
-└── solver.py        # Search algorithms: A*, BFS, DFS
+├── environment.py   # Puzzle engine: state transitions, goal test, and inversion parity
+├── heuristic.py     # Heuristic logic: Manhattan Distance and Linear Conflict
+├── solver.py        # Search Agents: A*, BFS, DFS, and Greedy Best-First Search
+├── visualizer.py    # UI Engine: Terminal animation and performance tables
+└── main.py          # Orchestrator: User input and algorithm execution
 ```
 
 ---
 
-##  Algorithms Implemented
-
-| Algorithm | Optimal? | Complete? | Heuristic Used |
-|:---|:---:|:---:|:---|
-| A\* + Manhattan Distance | ✅ | ✅ | `get_manhattan_distance` |
-| A\* + Linear Conflict | ✅ | ✅ | `get_linear_conflict` |
-| BFS (Breadth-First Search) | ✅ | ✅ | None |
-| DFS (Depth-First Search) | ❌ | ✅ | None |
+## 🤖 AI Attribution
+This project was developed by **Group 07** with the assistance of **Google Gemini (AI)**. The AI was utilized for:
+* Refactoring search algorithms for modularity and performance.
+* Designing the terminal animation logic and grid rendering in `visualizer.py`.
+* Debugging complex state-space edge cases and solvability logic.
+* Final validation and empirical testing were conducted by the group members.
 
 ---
 
-##  Getting Started
+## 🧠 Algorithms & Performance
 
-### Prerequisites
-
-- Python 3.7+
-- No external dependencies (uses only Python standard library)
-
-### Run the Solver
-
-```python
-from environment import Env
-from heuristic import get_manhattan_distance, get_linear_conflict
-from solver import AStarSolver, BFSSolver, DFSSolver
-
-# Define the environment
-env = Env()  # Default goal: (1, 2, 3, 4, 5, 6, 7, 8, 0)
-
-# Define a scrambled start state
-start = (1, 2, 3, 4, 0, 5, 7, 8, 6)
-
-# Check solvability first
-if not env.is_solvable(start):
-    print("This puzzle configuration is unsolvable.")
-else:
-    # --- A* with Manhattan Distance ---
-    solver = AStarSolver(env, get_manhattan_distance)
-    path, nodes, frontier_size, time_taken = solver.solve(start)
-
-    print(f"Solution Length : {len(path) - 1} moves")
-    print(f"Nodes Expanded  : {nodes}")
-    print(f"Max Frontier    : {frontier_size}")
-    print(f"Time Taken      : {time_taken:.4f}s")
-```
+| Algorithm | Type | Optimal? | Complete? | Selection Criteria |
+|:---|:---:|:---:|:---:|:---|
+| **A\*** | Informed | ✅ Yes | ✅ Yes | $f(n) = g(n) + h(n)$ |
+| **Greedy BFS** | Informed | ❌ No | ✅ Yes | $f(n) = h(n)$ |
+| **BFS** | Uninformed | ✅ Yes | ✅ Yes | Layer-by-layer exploration |
+| **DFS** | Uninformed | ❌ No | ✅ Yes | Depth-first exploration |
 
 ---
 
-##  Heuristics
+## 🚀 Heuristics
 
-### Manhattan Distance
-Calculates the sum of horizontal and vertical distances of each tile from its goal position. Admissible and consistent.
+### 1. Manhattan Distance ($L_1$ Baseline)
+Calculated as the sum of the absolute horizontal and vertical differences between current tile positions and their goal positions. It is both admissible and consistent.
 
-### Linear Conflict
-An enhancement over Manhattan Distance. Adds a penalty when two tiles are in their correct row or column but in reversed order — forcing extra moves to resolve. Always `≥` Manhattan Distance, resulting in fewer nodes expanded.
-
-```
-Linear Conflict = Manhattan Distance + 2 × (number of conflicts)
-```
+### 2. Linear Conflict (Advanced)
+An enhancement of Manhattan Distance that identifies tiles in their correct row/column but in reversed relative order. It adds a penalty of 2 for every such conflict, significantly reducing the number of nodes expanded in A*.
 
 ---
 
-##  Module Overview
-
-### `environment.py`
-
-| Method | Description |
-|:---|:---|
-| `is_solvable(state)` | Checks solvability using inversion parity |
-| `get_actions(state)` | Returns valid moves: `Up`, `Down`, `Left`, `Right` |
-| `get_successor(state, action)` | Returns the resulting state after an action |
-| `goal_test(state)` | Returns `True` if the state equals the goal |
-
-### `heuristic.py`
-
-| Function | Description |
-|:---|:---|
-| `get_manhattan_distance(state, goal)` | Sum of tile distances from goal positions |
-| `get_linear_conflict(state, goal)` | Manhattan Distance + linear conflict penalty |
+## 📋 Module Overview
 
 ### `solver.py`
+Contains the four core search classes. Each solver returns a standardized 4-tuple:
+* `path`: The sequence of states from start to goal.
+* `nodes_expanded`: Total states popped from the frontier (Time Complexity proxy).
+* `max_frontier_size`: Peak memory usage (Space Complexity proxy).
+* `execution_time`: Total search time in seconds.
 
-| Class | Description |
-|:---|:---|
-| `AStarSolver(env, heuristic_fn)` | Informed search using `f(n) = g(n) + h(n)` |
-| `BFSSolver(env)` | Uninformed breadth-first search |
-| `DFSSolver(env)` | Uninformed depth-first search |
-
-All solvers return the same 4-tuple from `.solve(start_state)`:
-
-```python
-path, nodes_expanded, max_frontier_size, execution_time = solver.solve(start)
-```
-
-| Return Value | Type | Description |
-|:---|:---|:---|
-| `path` | `list` or `None` | Sequence of states from start → goal |
-| `nodes_expanded` | `int` | Total nodes popped from the frontier |
-| `max_frontier_size` | `int` | Peak frontier size during search |
-| `execution_time` | `float` | Time taken in seconds |
+### `environment.py`
+Implements the **Inversion Parity** check to ensure the puzzle is mathematically solvable before starting a search, preventing infinite loops in unsolvable configurations.
 
 ---
 
-##  State Representation
+## 🎮 How to Run
 
-The puzzle is represented as a **9-tuple** of integers, where `0` is the blank tile.
-
-```
-Goal State:          Example Scrambled State:
- 1 | 2 | 3            1 | 2 | 3
------------          -----------
- 4 | 5 | 6            4 |   | 5
------------          -----------
- 7 | 8 |              7 | 8 | 6
-
-(1, 2, 3, 4, 5, 6, 7, 8, 0)    (1, 2, 3, 4, 0, 5, 7, 8, 6)
-```
+1. **Ensure Python 3.7+ is installed.**
+2. **Run the orchestrator:**
+   ```bash
+   python main.py
+   ```
+3. **Follow the prompts** to enter your 9-digit initial state (e.g., `1 2 3 4 0 5 7 8 6`) and select your desired algorithm and heuristic.
 
 ---
 
-##  License
+## 📚 References
+* [8-Puzzle Problem in AI (GeeksforGeeks)](https://www.geeksforgeeks.org/artificial-intelligence/8-puzzle-problem-in-ai/)
+* [A* Search Algorithm Tutorial (DataCamp)](https://www.datacamp.com/tutorial/a-star-algorithm)
+* [Solvability of the 8-Puzzle (Math StackExchange)](https://math.stackexchange.com/questions/293527/how-to-check-if-a-8-puzzle-is-solvable)
+```
 
-This project is open source and available under the [MIT License](LICENSE).

@@ -1,3 +1,6 @@
+'''
+    Main Driver file to ensure easy debugging and tracking of all metrics - time taken, nodes expanded, etc.
+'''
 from environment import Env
 from heuristic import get_manhattan_distance, get_linear_conflict
 from solver import AStarSolver, BFSSolver, DFSSolver, GreedyBestFirstSolver
